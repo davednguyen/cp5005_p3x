@@ -21,6 +21,7 @@ public:
     string to_string();
     string to_string() const;
     void setArrivalOrder(int);
+    void setPriorityCode(int); //for extra credit
     int getPriorityCode();
     string getName();
     int getArrivalOrder();
@@ -104,6 +105,13 @@ void Patient::setArrivalOrder(int order) {
     arrivalOrder = order;
 }
 
+/*
+ * set Priority code
+ * for EXTRA credit works
+ */
+void Patient::setPriorityCode(int newCode) {
+    priorityCode = newCode;
+}
 /*
  * overloaded operator equal
  * return true if priority code is equal to other patient's priority code

@@ -47,6 +47,10 @@ string delimitBySpace(string &);
 void showHeapSizeCmd(PatientPriorityQueue &);
 // Displays size of patient list.
 
+void UpdatePatientPriorityCode(string, PatientPriorityQueue &);
+//****************EXTRA CREDIT works**************************
+//update specific patient's priority code
+
 int main() {
 
     // declare variables
@@ -78,6 +82,8 @@ bool processLine(string line, PatientPriorityQueue &priQueue) {
         help();
     else if (cmd == "add")
         addPatientCmd(line, priQueue);
+    else if (cmd == "change") //****EXTRA credit works*********
+        UpdatePatientPriorityCode(line, priQueue);
     else if (cmd == "peek")
         peekNextCmd(priQueue);
     else if (cmd == "next")
@@ -130,13 +136,45 @@ void addPatientCmd(string line, PatientPriorityQueue &priQueue) {
     }
 }
 
+void UpdatePatientPriorityCode(string line, PatientPriorityQueue &priQueue){
+    string priority, arrivalNumber;
+    // get priority and arrival number
+    arrivalNumber = delimitBySpace(line);
+    if (arrivalNumber.length() == 0) {
+        cout << "Error: no patient arrival number given.\n";
+        return;
+    }
+    priority = line;
+    if (priority.length() == 0) {
+        cout << "Error: no priority code given.\n";
+        return;
+    }
+
+
+    int code = 0;
+    if(priority == "immediate")
+        code = 1;
+    if(priority == "emergency")
+        code = 2;
+    if(priority == "urgent")
+        code = 3;
+    if(priority == "minimal")
+        code = 4;
+    //convert input arrival number into integer
+    int patientNumber = stoi(arrivalNumber);
+    if(code != 0){
+          priQueue.updatePatientPriorityCode(patientNumber, code);
+        stringstream ss;
+        ss << "Change patient " << '"'<< priQueue.getPatientName(patientNumber) << '"' <<"'s priority to " << priQueue.getPatientPriorityCode(patientNumber) << endl;
+        cout << ss.str();
+    }else{
+        cout << "enter correct priority code"<< endl;
+
+    }
+}
 void showHeapSizeCmd(PatientPriorityQueue &priQueue){
     cout << priQueue.Size() << endl;
 }
-
-//void showHighestPriorityCodeCmd(PatientPriorityQueue &priQueue){
-//    cout << priQueue.getHighestPriorityCode() << endl;
-//}
 
 void peekNextCmd(PatientPriorityQueue &priQueue) {
     string patient = priQueue.peek();

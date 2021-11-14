@@ -25,6 +25,9 @@ public:
     string to_string();
     string getLevelTraversal();
     int getLatestInsertedPatientNumber();
+    void updatePatientPriorityCode(int, int);// for EXTRA credit works
+    string getPatientName(int); // for EXTRA credit works
+    string getPatientPriorityCode(int); //for EXTRA credit works
 
 private:
     int count;
@@ -40,6 +43,8 @@ private:
     int getLeftChild(int) const;
     int getRightChild(int) const;
     void updatePriorityCode();
+    //for EXTRA credit works
+    string priorities[5] = {" ", "immediate", "emergency", "urgent", "minimal" };
 };
 
 /*
@@ -79,8 +84,56 @@ string PatientPriorityQueue::to_string() {
         ss << it->to_string()<< endl;
     }
     return ss.str();
+}
 
+/*
+ * *******EXTRA credit work*************************************
+ * update patient's new priority code
+ */
+void PatientPriorityQueue::updatePatientPriorityCode(int arrivalNumber, int priorityCode) {
 
+    if (patients.size() > 0){
+        for (int i = 0; i < (int) patients.size(); i++) {
+            if (patients[i].getArrivalOrder() == arrivalNumber) {
+                    patients[i].setPriorityCode(priorityCode);//update patient new priority code
+                siftUp(patients.size() - 1); //maintain and update MIN HEAP after updated the code
+            }
+        }
+    }
+}
+
+/*
+ * *******EXTRA credit work*************************************
+ * get patient 's full name
+ */
+string PatientPriorityQueue::getPatientName(int patientCode) {
+    string name = "";
+    if (patients.size() > 0){
+        for (int i = 0; i < (int) patients.size(); i++) {
+            if (patients[i].getArrivalOrder() == patientCode) {
+                name = patients[i].getName();
+                break;
+            }
+        }
+    }
+    return name;
+}
+
+/*
+ * *******EXTRA credit work*************************************
+ * get patient 's priority code
+ */
+string PatientPriorityQueue::getPatientPriorityCode(int patientCode) {
+    string code = "";
+    if (patients.size() > 0){
+        for (int i = 0; i < (int) patients.size(); i++) {
+            if (patients[i].getArrivalOrder() == patientCode) {
+                code = priorities[patients[i].getPriorityCode()];
+                break;
+            }
+        }
+    }
+    return code;
 }
 
 /*
