@@ -74,35 +74,6 @@ string PatientPriorityQueue::peek() const {
 }
 
 /*
- * display list of patient in a HEAP
- */
-string PatientPriorityQueue::to_string() {
-
-    stringstream ss;
-    vector<Patient>::iterator it;
-    for(it = patients.begin()  ; it != patients.end(); it++){
-        ss << it->to_string()<< endl;
-    }
-    return ss.str();
-}
-
-/*
- * *******EXTRA credit work*************************************
- * update patient's new priority code
- */
-void PatientPriorityQueue::updatePatientPriorityCode(int arrivalNumber, int priorityCode) {
-
-    if (patients.size() > 0){
-        for (int i = 0; i < (int) patients.size(); i++) {
-            if (patients[i].getArrivalOrder() == arrivalNumber) {
-                    patients[i].setPriorityCode(priorityCode);//update patient new priority code
-                siftUp(patients.size() - 1); //maintain and update MIN HEAP after updated the code
-            }
-        }
-    }
-}
-
-/*
  * *******EXTRA credit work*************************************
  * get patient 's full name
  */
@@ -135,6 +106,37 @@ string PatientPriorityQueue::getPatientPriorityCode(int patientCode) {
     }
     return code;
 }
+
+/*
+ * display list of patient in a HEAP
+ */
+string PatientPriorityQueue::to_string() {
+
+    stringstream ss;
+    vector<Patient>::iterator it;
+    for(it = patients.begin()  ; it != patients.end(); it++){
+        ss << it->to_string()<< endl;
+    }
+    return ss.str();
+}
+
+/*
+ * *******EXTRA credit work*************************************
+ * update patient's new priority code
+ */
+void PatientPriorityQueue::updatePatientPriorityCode(int arrivalNumber, int priorityCode) {
+
+    if (patients.size() > 0){
+        for (int i = 0; i < (int) patients.size(); i++) {
+            if (patients[i].getArrivalOrder() == arrivalNumber) {
+                    patients[i].setPriorityCode(priorityCode);//update patient new priority code
+                siftUp(patients.size() - 1); //maintain and update MIN HEAP after updated the code
+            }
+        }
+    }
+}
+
+
 
 /*
  * Special function to display list of patient with order of priority codes
