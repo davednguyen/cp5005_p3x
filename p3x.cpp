@@ -51,6 +51,9 @@ void UpdatePatientPriorityCode(string, PatientPriorityQueue &);
 //****************EXTRA CREDIT works**************************
 //update specific patient's priority code
 
+void SavePatientList(string, PatientPriorityQueue &);
+//*************** Extra CREDIT works***************************
+
 int main() {
 
     // declare variables
@@ -94,6 +97,8 @@ bool processLine(string line, PatientPriorityQueue &priQueue) {
         execCommandsFromFileCmd(line, priQueue);
     else if (cmd == "size")
         showHeapSizeCmd(priQueue);
+    else if(cmd == "save")
+        SavePatientList(line, priQueue);
     else if (cmd == "quit")
         return false;
     else
@@ -136,12 +141,16 @@ void addPatientCmd(string line, PatientPriorityQueue &priQueue) {
     }
 }
 
+/*
+ * ********** EXTRA CREDIT WORKS***************************************
+ * Update Patient 's priority code
+ */
 void UpdatePatientPriorityCode(string line, PatientPriorityQueue &priQueue){
     string priority, arrivalNumber;
     // get priority and arrival number
     arrivalNumber = delimitBySpace(line);
     if (arrivalNumber.length() == 0) {
-        cout << "Error: no patient arrival number given.\n";
+        cout << "Error: no patient id provided.\n";
         return;
     }
     priority = line;
@@ -149,7 +158,6 @@ void UpdatePatientPriorityCode(string line, PatientPriorityQueue &priQueue){
         cout << "Error: no priority code given.\n";
         return;
     }
-
 
     int code = 0;
     if(priority == "immediate")
@@ -162,15 +170,46 @@ void UpdatePatientPriorityCode(string line, PatientPriorityQueue &priQueue){
         code = 4;
     //convert input arrival number into integer
     int patientNumber = stoi(arrivalNumber);
-    if(code != 0){
-          priQueue.updatePatientPriorityCode(patientNumber, code);
-        stringstream ss;
-        ss << "Change patient " << '"'<< priQueue.getPatientName(patientNumber) << '"' <<"'s priority to " << priQueue.getPatientPriorityCode(patientNumber) << endl;
-        cout << ss.str();
-    }else{
-        cout << "enter correct priority code"<< endl;
+    string patientName = priQueue.getPatientName(patientNumber);
 
+    if(patientName != ""){
+        if(code != 0){
+            priQueue.updatePatientPriorityCode(patientNumber, code);
+            stringstream ss;
+            ss << "Change patient " << '"'<< patientName << '"' <<"'s priority to " << priQueue.getPatientPriorityCode(patientNumber) << endl;
+            cout << ss.str();
+        }else{
+            cout << "enter correct priority code"<< endl;
+
+        }
+    }else{
+        stringstream ss;
+        ss << "Error: no patient with the given id was found " << endl;
+        cout << ss.str();
     }
+}
+
+/*
+ * ********** EXTRA CREDIT WORKS***************************************
+ * Save patient list to a text file
+ */
+void SavePatientList (string filename, PatientPriorityQueue &priQueue){
+    stringstream ss;
+    fstream fileStream;
+    ofstream file;
+    ifstream input;
+    input.open(filename, ios::app);
+    file.open(filename);
+    for(int i = 1; i <= priQueue.Size(); i++){
+        ss << "add " << priQueue.getPatientPriorityCode(i) << " " << priQueue.getPatientName(i) + "\n";
+    }
+    string inputLines = ss.str();
+    if(input.is_open()){
+        file << inputLines;
+    }
+    input.close();
+    file.close();
+    cout << "Saved " << priQueue.Size() << " to file " << filename << endl;
 }
 void showHeapSizeCmd(PatientPriorityQueue &priQueue){
     cout << priQueue.Size() << endl;
@@ -226,7 +265,14 @@ string delimitBySpace(string &s) {
 }
 
 void welcome() {
-    // TODO
+
+    cout << "************************************************************"<< endl;
+    cout << "*    David 's Extra credit works                           *"<< endl;
+    cout << "*                                                          *"<< endl;
+    cout << "*    1 - Extra credit: update patient 's priority code     *"<< endl;
+    cout << "*    2 - Extra credit: save patient list into a text file  *"<< endl;
+    cout << "************************************************************"<< endl;
+    
     cout << "************************************************************"<< endl;
     cout << "*    Welcome to patient priority and waiting list system   *"<< endl;
     cout << "*                                                          *"<< endl;
@@ -240,7 +286,7 @@ void welcome() {
 }
 
 void goodbye() {
-    // TODO
+
     exit(0);
 }
 
