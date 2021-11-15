@@ -4,8 +4,8 @@
  * maintain patient list with MIN HEAP
  */
 
-#ifndef P3X_PATIENTPRIORITYQUEUE_H
-#define P3X_PATIENTPRIORITYQUEUE_H
+#ifndef P3X_PATIENTPRIORITYQUEUEX_H
+#define P3X_PATIENTPRIORITYQUEUEX_H
 #include <vector>
 #include "Patient.h"
 #include <cassert>
@@ -301,4 +301,4 @@ int PatientPriorityQueue::getRightChild(int index) const {
 }
 
 
-#endif //P3X_PATIENTPRIORITYQUEUE_H
+#endif //P3X_PATIENTPRIORITYQUEUEX_H

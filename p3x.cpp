@@ -6,7 +6,7 @@
 
 #include <iostream>
 #include "Patient.h"
-#include "PatientPriorityQueue.h"
+#include "PatientPriorityQueuex.h"
 #include <fstream>
 #include <string>
 
